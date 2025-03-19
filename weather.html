@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather</title>
+    <link rel = "stylesheet" href = "weather.css">
+
+</head>
+<body>
+    <div class="card">
+        <div class = "search">
+            <input type = "text" placeholder ="Enter City Name:"
+            spellcheck = "false">
+            
+        <button><img src = "images/search.png"></button>
+        </div>
+        <div class = "type"></div>
+        <div class = "error">
+            <p>Invalid Location. Try Again</p>
+        </div>
+        <div class="weather">
+            <img src = "images/rain.jpeg" class = "weather-icon">
+            <h1 class="temp"></h1>
+            
+            <h2 class="city">New York</h2>
+            <button class = "tempchange">ºF → ºC</button>
+        <button class = "windchange">mi → km</button>
+            <div class="details">
+                <div class="col">
+                    <img src = images/humidity.png>
+                    <div>
+                        <p class="humidity">50%</p>
+                        <p>Humidity</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <img src = images/wind.png>
+                    <div>
+                        <p class="wind">15 km/h</p>
+                        <p>Wind Speed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let tempunit = "imperial";
+        let windunit = tempunit;
+
+        const apikey = "56fb6ec11ac7598532141f9f91ec8906";
+        const apiUrl = `https://api.openweathermap.org/data/2.5/weather?units=${tempunit}&q=`;
+        const searchbox = document.querySelector(".search input");
+        const searchBtn = document.querySelector(".search button");
+        const weathericon = document.querySelector(".weather-icon");
+        const card = document.querySelector(".card"); 
+        const tempchange = document.querySelector(".tempchange");
+        const windchange = document.querySelector(".windchange");
+        let tempF,tempC,mi,km;
+
+        tempchange.addEventListener("click",()=>{
+                if(tempunit === "imperial"){
+                    document.querySelector(".temp").innerHTML = Math.round(tempC) + "ºC";
+                    tempunit = "metric";
+                    tempchange.innerHTML = "ºC → ºF";
+                }
+                else{
+                    document.querySelector(".temp").innerHTML = Math.round(tempF) + "ºF";
+                    tempunit = "imperial";
+                    tempchange.innerHTML = "ºF → ºC";
+                }
+            });
+        windchange.addEventListener("click", ()=>{
+            if(windunit === "imperial"){
+                    document.querySelector(".wind").innerHTML = km.toFixed(2) + "km/hr";
+                    windunit = "metric";
+                    windchange.innerHTML = "km → mi";
+                }
+                else{
+                    document.querySelector(".wind").innerHTML = mi.toFixed(2) + "mi/hr";
+                    windunit = "imperial";
+                    windchange.innerHTML = "mi → km";
+                }
+        });
+
+        async function checkWeather(city){
+            
+            const response = await fetch(apiUrl + city+ "&appid="+apikey);
+            if(response.status == 404){
+                document.querySelector(".error").style.display="block";
+                document.querySelector(".weather").style.display="none";
+                document.querySelector(".type").style.display = "none";
+                document.querySelector(".tempchange").style.display= "none";
+                document.querySelector(".windchange").style.display= "none";
+            }
+            else{
+            var data = await response.json();
+            console.log(data);
+
+            tempF = data.main.temp;
+            tempC = (tempF-32) * (5/9);
+            mi = data.wind.speed;
+            km = mi / 0.621371;
+
+            document.querySelector(".city").innerHTML = data.name + ", " + data.sys.country;
+            document.querySelector(".type").innerHTML = data.weather[0].main;
+            document.querySelector(".temp").innerHTML = Math.round(tempF) + "ºF";
+        
+            if (tempunit === "imperial") {
+                document.querySelector(".temp").innerHTML = Math.round(tempF) + "ºF";
+            } 
+            else {
+                document.querySelector(".temp").innerHTML = Math.round(tempC) + "ºC";
+            }
+
+            document.querySelector(".wind").innerHTML = "mi/hr"; 
+            document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
+
+            if (windunit === "imperial") {
+                document.querySelector(".wind").innerHTML = mi.toFixed(2) + "mi/hr";            
+            } 
+            else {
+                document.querySelector(".wind").innerHTML = km.toFixed(2) + "km/hr";            
+            }
+
+        switch (data.weather[0].main) {
+            case "Clouds":
+                weathericon.src = "images/cloud.png";
+                document.querySelector(".card").style.setProperty('background', 'linear-gradient(135deg, #3a596e3c, #555)');
+                break;
+            case "Clear":
+                weathericon.src = "images/clear.gif";
+                document.querySelector(".card").style.setProperty('background', 'linear-gradient(135deg, #79b7fffa, #96d2f5)');
+                break;
+            case "Drizzle":
+                weathericon.src = "images/drizzle.png";
+                document.querySelector(".card").style.setProperty('background', 'linear-gradient(135deg, #39778e, #4d5a6a)');
+                break;
+            case "Rain":
+                weathericon.src = "images/rain.gif";
+                document.querySelector(".card").style.setProperty('background', 'linear-gradient(135deg, #1d3038, #386c9c)');
+                break;
+            case "Snow":
+                weathericon.src = "images/snow.gif";
+                document.querySelector(".card").style.setProperty('background', 'linear-gradient(135deg, #dafffd, #e7ffff67)');
+                break;
+            case "Mist":
+                weathericon.src = "images/mist.png";
+                document.querySelector(".card").style.setProperty('background', 'linear-gradient(135deg, #3f3f3f, #624e4e)');
+                break;
+            case "Dust":
+                weathericon.src = "images/dust.png";
+                document.querySelector(".card").style.setProperty('background', 'linear-gradient(135deg, #acac0e7c, #8a6565d2)');
+                break;
+            case "Haze":
+                weathericon.src = "images/mist.png";
+                document.querySelector(".card").style.setProperty('background', 'linear-gradient(135deg, #acac0e7c, #8a6565d2)');
+                break;
+            default:
+                weathericon.src = "images/default.png";
+                document.querySelector(".card").style.setProperty('background', 'linear-gradient(135deg, #414141, #2a2a2a)');
+                break;
+        }
+            document.querySelector(".weather").style.display = "block";
+            document.querySelector(".error").style.display= "none";
+            }
+        }
+        
+        searchBtn.addEventListener("click", ()=>{
+            checkWeather(searchbox.value);
+        });
+
+        searchbox.addEventListener("keypress", (e)=>{
+            if(e.key == "Enter"){
+            checkWeather(searchbox.value);
+            }
+        });
+        checkWeather()
+    </script>
+</body>
+</html>
