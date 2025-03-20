@@ -13,14 +13,14 @@
             <input type = "text" placeholder ="Enter City Name:"
             spellcheck = "false">
             
-        <button><img src = "images/search.png"></button>
+        <button><img src = "search.png"></button>
         </div>
         <div class = "type"></div>
         <div class = "error">
             <p>Invalid Location. Try Again</p>
         </div>
         <div class="weather">
-            <img src = "images/rain.jpeg" class = "weather-icon">
+            <img src = "rain.jpeg" class = "weather-icon">
             <h1 class="temp"></h1>
             
             <h2 class="city">New York</h2>
@@ -28,14 +28,14 @@
         <button class = "windchange">mi → km</button>
             <div class="details">
                 <div class="col">
-                    <img src = images/humidity.png>
+                    <img src = humidity.png>
                     <div>
                         <p class="humidity">50%</p>
                         <p>Humidity</p>
                     </div>
                 </div>
                 <div class="col">
-                    <img src = images/wind.png>
+                    <img src = wind.png>
                     <div>
                         <p class="wind">15 km/h</p>
                         <p>Wind Speed</p>
@@ -125,39 +125,39 @@
 
         switch (data.weather[0].main) {
             case "Clouds":
-                weathericon.src = "images/cloud.png";
+                weathericon.src = "cloud.png";
                 document.querySelector(".card").style.setProperty('background', 'linear-gradient(135deg, #3a596e3c, #555)');
                 break;
             case "Clear":
-                weathericon.src = "images/clear.gif";
+                weathericon.src = "clear.gif";
                 document.querySelector(".card").style.setProperty('background', 'linear-gradient(135deg, #79b7fffa, #96d2f5)');
                 break;
             case "Drizzle":
-                weathericon.src = "images/drizzle.png";
+                weathericon.src = "drizzle.png";
                 document.querySelector(".card").style.setProperty('background', 'linear-gradient(135deg, #39778e, #4d5a6a)');
                 break;
             case "Rain":
-                weathericon.src = "images/rain.gif";
+                weathericon.src = "rain.gif";
                 document.querySelector(".card").style.setProperty('background', 'linear-gradient(135deg, #1d3038, #386c9c)');
                 break;
             case "Snow":
-                weathericon.src = "images/snow.gif";
+                weathericon.src = "snow.gif";
                 document.querySelector(".card").style.setProperty('background', 'linear-gradient(135deg, #dafffd, #e7ffff67)');
                 break;
             case "Mist":
-                weathericon.src = "images/mist.png";
+                weathericon.src = "mist.png";
                 document.querySelector(".card").style.setProperty('background', 'linear-gradient(135deg, #3f3f3f, #624e4e)');
                 break;
             case "Dust":
-                weathericon.src = "images/dust.png";
+                weathericon.src = "dust.png";
                 document.querySelector(".card").style.setProperty('background', 'linear-gradient(135deg, #acac0e7c, #8a6565d2)');
                 break;
             case "Haze":
-                weathericon.src = "images/mist.png";
+                weathericon.src = "mist.png";
                 document.querySelector(".card").style.setProperty('background', 'linear-gradient(135deg, #acac0e7c, #8a6565d2)');
                 break;
             default:
-                weathericon.src = "images/default.png";
+                weathericon.src = "default.png";
                 document.querySelector(".card").style.setProperty('background', 'linear-gradient(135deg, #414141, #2a2a2a)');
                 break;
         }
